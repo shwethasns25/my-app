@@ -1,14 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import './module.scss';
-
-const icons = {
-  next: 'https://image.flaticon.com/icons/svg/25/25309.svg',
-  previous: 'https://image.flaticon.com/icons/svg/25/25641.svg',
-  play: 'http://pngimages.net/sites/default/files/play-png-image-54101.png',
-  pause: 'http://icon-icons.com/icons2/495/PNG/512/video-control-pause_icon-icons.com_48386.png',
-  activeShuffle: 'http://icons.iconarchive.com/icons/danieledesantis/audio-video-outline/256/shuffle-icon.png',
-  shuffle: 'http://icons.iconarchive.com/icons/iconsmind/outline/256/Shuffle-2-icon.png',
-};
 
 export default class MusicAudio extends Component {
 
@@ -73,7 +65,7 @@ export default class MusicAudio extends Component {
       disable = true;
     }
     return (
-      <button onClick={this.props.backward} disabled={disable}><img src={icons.previous} alt={'previous'} /></button>
+      <button onClick={this.props.backward} disabled={disable} className={'fa fa-step-backward'} />
     );
   }
 
@@ -83,7 +75,7 @@ export default class MusicAudio extends Component {
       disable = true;
     }
     return (
-      <button onClick={this.props.random} disabled={disable}>{ (this.props.shuffle) ? <img src={icons.activeShuffle} alt={'shuffle'} /> : <img src={icons.shuffle} alt={'shuffle'} /> }</button>
+      <button onClick={this.props.random} disabled={disable} className={'fa fa-random shuffleBtn'} />
     );
   }
 
@@ -95,11 +87,16 @@ export default class MusicAudio extends Component {
       disable = true;
     }
     return (
-      <button onClick={this.props.forward} disabled={disable}><img src={icons.next} alt={'next'} /></button>
+      <button onClick={this.props.forward} disabled={disable} className={'fa fa-step-forward'} />
     );
   }
 
   render() {
+    const toggleClassName = classnames({
+      fa: true,
+      'fa-play': (this.state.playBtn),
+      'fa-pause': !(this.state.playBtn)
+    });
     return (
       <div className={'controls'}>
         <div>
@@ -110,9 +107,9 @@ export default class MusicAudio extends Component {
             <source src={this.props.src} type={'audio/mpeg'} />
           </audio>
           {this.renderBackwardBtn()}
-          <button onClick={this.toggleButton}>{ (this.state.playBtn) ? <img src={icons.play} alt={'play'} /> : <img src={icons.pause} alt={'pause'} /> }</button>
+          <button onClick={this.toggleButton} className={toggleClassName} />
           {this.renderForwardBtn()}
-          {this.renderShuffleBtn()}
+          <div className={'shuffleBtn'}>{this.renderShuffleBtn()}</div>
         </div>
       </div>
     );

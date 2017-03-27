@@ -1,20 +1,34 @@
-.backgroundImage{
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+.box { @include border-radius(10px); }
+.mainDiv{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0 auto;
+  transform: translatey(-50%);
+  height: 400px;
+  width: 276px;
   border-style: groove;
-  border-radius: 15px;
-  width: 30%;
-  position: fixed;
-  top: 20%;
-  left: 30%;
-  height: 390px;
-  margin-top: -21px;
+  @include border-radius(15px);
   box-shadow: 4px 4px 10px;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  .headingStyle{
-    min-height: 250px;
-    text-align: center;
+
+  .backgroundImage{
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    .headingStyle{
+      min-height: 250px;
+      text-align: center;
+    }
   }
 }
 

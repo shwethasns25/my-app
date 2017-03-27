@@ -1,24 +1,19 @@
-.audio{
-  width: 100%;
-}
 
 $buttonWidth: 17px;
 $buttonHeight: 19px;
-
 .controls{
+  .audio{
+    width: 100%;
+  }
   .buttonStyles{
-    margin-left: 30%;
+    text-align: center;
+    .shuffleBtn {
+      float: right;
+    }
     button{
       border-radius: 50%;
+      background: transparent;
       border: none;
-      margin-right: 10px;
-      &:disabled{
-        background: transparent;
-      }
-      img{
-        width: $buttonWidth;
-        height: $buttonHeight;
-      }
     }
   }
 }
