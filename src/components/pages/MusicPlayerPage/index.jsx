@@ -1,5 +1,5 @@
 import React from 'react';
-import Musicplayer from 'containers';
+import Musicplayer from 'containers/MusicPlayer';
 
 const MusicPlayerPage = () => {
   return (
