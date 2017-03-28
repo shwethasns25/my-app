@@ -1,29 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { MusicAudio, Heading } from 'components';
-import DoublyLinkedList from './dll';
-import source from './source.json';
 import './module.scss';
 
 export default class MusicApp extends Component {
 
-  state = { track: '', img: '', title: '', playStatus: false, index: '', dll: {}, shuffle: false }
-
-  componentWillMount() {
-    const dll = new DoublyLinkedList();
-    source.map((data, i) => {
-      dll.add(data, i);
-    });
-    const currNode = dll.getHead();
-    this.setState({ img: currNode.data.image, title: currNode.data.title, track: currNode.data.audio_url, index: 0, dll });
+  static propTypes = {
+    getTrackNode: PropTypes.func,
+    title: PropTypes.string,
+    image: PropTypes.string,
+    track: PropTypes.string,
+    count: PropTypes.number
   }
+
+  state = { playStatus: false, index: 0, dll: {}, shuffle: false }
 
   randomNode = () => {
     const myAudio = document.getElementById('myAudio');
     const min = 0;
     const max = this.state.dll.getCount() - 1;
     const index = Math.floor(Math.random() * ((max - min) + 1)) + min;
-    const rondomNode = this.state.dll.getNodeAt(index);
-    this.setState({ img: rondomNode.image, title: rondomNode.title, track: rondomNode.audio_url, index });
+    this.props.getTrackNode(index);
+    this.setState({ index });
     myAudio.load();
   }
 
@@ -31,8 +28,8 @@ export default class MusicApp extends Component {
     if (!this.state.shuffle) {
       const myAudio = document.getElementById('myAudio');
       const index = this.state.index;
-      const forwardNode = this.state.dll.getNodeAt(index + 1);
-      this.setState({ img: forwardNode.image, title: forwardNode.title, track: forwardNode.audio_url, index: index + 1 });
+      this.props.getTrackNode(index + 1);
+      this.setState({ index: index + 1 });
       myAudio.load();
     } else {
       this.randomNode();
@@ -43,8 +40,8 @@ export default class MusicApp extends Component {
     if (!this.state.shuffle) {
       const myAudio = document.getElementById('myAudio');
       const index = this.state.index;
-      const backwardNode = this.state.dll.getNodeAt(index - 1);
-      this.setState({ img: backwardNode.image, title: backwardNode.title, track: backwardNode.audio_url, index: index - 1 });
+      this.props.getTrackNode(index - 1);
+      this.setState({ index: index - 1 });
       myAudio.load();
     } else {
       this.randomNode();
@@ -58,23 +55,23 @@ export default class MusicApp extends Component {
 
   render() {
     const divStyle = {
-      backgroundImage: `url(${this.state.img})`
+      backgroundImage: `url(${this.props.image})`
     };
     return (
       <div className={'mainDiv'}>
         <div style={divStyle} className={'backgroundImage'}>
           <div>
-            <Heading as={'h1'} className={'headingStyle'}>{this.state.title}</Heading>
+            <Heading as={'h1'} className={'headingStyle'}>{this.props.title}</Heading>
           </div>
         </div>
         <MusicAudio
           shuffle={this.state.shuffle}
-          count={this.state.dll.getCount()}
+          count={this.props.count}
           index={this.state.index}
           forward={this.forward()}
           backward={this.backward()}
           random={this.randomTrack()}
-          src={this.state.track}
+          src={this.props.track}
           endSong={this.forward()}
         />
       </div>
